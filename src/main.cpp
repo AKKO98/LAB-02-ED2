@@ -1,79 +1,68 @@
 #include "Graph.h"
-
+#include <iostream>
+    
 int main() {
-    // Crear un grafo con 7 vértices y no dirigido
-    Graph g(7, false);
+    // Crear un grafo de tipo int con capacidad inicial para 5 nodos
+    Graph<int> graph(5);
 
-    // Agregar 10 aristas
-    g.add_edge(0, 1);  // Arista 1
-    g.add_edge(0, 2);  // Arista 2
-    g.add_edge(1, 3);  // Arista 3
-    g.add_edge(1, 4);  // Arista 4
-    g.add_edge(2, 5);  // Arista 5
-    g.add_edge(2, 6);  // Arista 6
-    g.add_edge(3, 4);  // Arista 7
-    g.add_edge(3, 5);  // Arista 8
-    g.add_edge(4, 6);  // Arista 9
-    g.add_edge(5, 6);  // Arista 10
+    // Agregar nodos
+    graph.add_node(1);
+    graph.add_node(2);
+    graph.add_node(3);
+    graph.add_node(4);
+    graph.add_node(5);
 
-    // Imprimir la matriz de adyacencia
-    g.print();
+    // Agregar aristas
+    graph.add_edge(1, 2);
+    graph.add_edge(1, 3);
+    graph.add_edge(2, 4);
+    graph.add_edge(3, 4);
+    graph.add_edge(4, 5);
 
-    // Probar DFS desde el nodo 0
-    std::cout << "\nDFS desde el nodo 0:" << std::endl;
-    g.DFS(0);
+    std::cout << "Grafo creado con 5 nodos y algunas aristas.\n";
 
-    // Probar BFS desde el nodo 0
-    std::cout << "\nBFS desde el nodo 0:" << std::endl;
-    g.BFS(0);
+    // Probar Degree
+    std::cout << "Grado del nodo 1: " << graph.Degree(1) << std::endl;
+    std::cout << "Grado del nodo 4: " << graph.Degree(4) << std::endl;
 
-    // Probar el grado de algunos nodos
-    std::cout << "\nGrado del nodo 0: " << g.degree(0) << std::endl;
-    std::cout << "Grado del nodo 1: " << g.degree(1) << std::endl;
-    std::cout << "Grado del nodo 6: " << g.degree(6) << std::endl;
+    // Probar DFS
+    std::cout << "\nDFS desde el nodo 1: ";
+    graph.DFS(1);
+    std::cout << std::endl;
 
-    // Probar el grado mínimo y máximo
-    std::cout << "\nGrado mínimo: " << g.min_degree(0) << std::endl;
-    std::cout << "Grado máximo: " << g.max_degree(0) << std::endl;
+    // Probar BFS
+    std::cout << "BFS desde el nodo 1: ";
+    graph.BFS(1);
+    std::cout << std::endl;
 
-    // Probar la secuencia de grados
-    std::vector<int> degreeSeq = g.degree_sequence();
-    std::cout << "\nSecuencia de grados (de mayor a menor): ";
-    for (int deg : degreeSeq) {
-        std::cout << deg << " ";
+    // Probar is_connected
+    std::cout << "¿El grafo es conexo?: " << (graph.is_connected() ? "Sí" : "No") << std::endl;
+
+    // Probar has_cycle
+    std::cout << "¿El grafo tiene ciclos?: " << (graph.has_cycle() ? "Sí" : "No") << std::endl;
+
+    // Probar is_acyclic
+    std::cout << "¿El grafo es acíclico?: " << (graph.is_acyclic() ? "Sí" : "No") << std::endl;
+
+    // Probar is_complete
+    std::cout << "¿El grafo es completo?: " << (graph.is_complete() ? "Sí" : "No") << std::endl;
+
+    // Probar degree_sequence
+    std::vector<int> degreeSeq = graph.degree_sequence();
+    std::cout << "Secuencia de grados: ";
+    for (int d : degreeSeq) {
+        std::cout << d << " ";
     }
     std::cout << std::endl;
 
-    // Probar si el grafo es conexo
-    std::cout << "\nEl grafo es conexo: " << (g.is_connected() ? "Sí" : "No") << std::endl;
+    // Probar is_r_regular
+    std::cout << "¿El grafo es 2-regular?: " << (graph.is_r_regular(2) ? "Sí" : "No") << std::endl;
 
-    // Probar el número de componentes conectadas
-    std::cout << "Número de componentes: " << g.number_of_components() << std::endl;
+    // Probar is_eulerian
+    std::cout << "¿El grafo es Euleriano?: " << (graph.is_eulerian() ? "Sí" : "No") << std::endl;
 
-    // Probar si el grafo tiene ciclo
-    std::cout << "El grafo es acíclico: " << (g.is_acyclic() ? "Sí" : "No") << std::endl;
-
-    // Probar si el grafo es completo
-    std::cout << "El grafo es completo: " << (g.is_complete() ? "Sí" : "No") << std::endl;
-
-    // Probar si el grafo es r-regular (e.g., 3-regular)
-    int r = 3;
-    std::cout << "El grafo es " << r << "-regular: " << (g.is_r_regular(r) ? "Sí" : "No") << std::endl;
-
-    // Probar si el grafo es Euleriano
-    std::cout << "El grafo es Euleriano: " << (g.is_eulerian() ? "Sí" : "No") << std::endl;
-
-    // Probar si el grafo es semi-Euleriano
-    std::cout << "El grafo es semi-Euleriano: " << (g.is_semieulerian() ? "Sí" : "No") << std::endl;
-
-    // Probar el camino entre dos nodos
-    int u = 0, v = 6;
-    std::vector<int> path = g.path(u, v);
-    std::cout << "\nCamino desde " << u << " hasta " << v << ": ";
-    for (int node : path) {
-        std::cout << node << " ";
-    }
-    std::cout << std::endl;
+    // Probar is_semieulerian
+    std::cout << "¿El grafo es semi-Euleriano?: " << (graph.is_semieulerian() ? "Sí" : "No") << std::endl;
 
     return 0;
 }
